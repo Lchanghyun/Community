@@ -5,6 +5,7 @@
 	article{
 		width: 1100px;
 		margin: 0 auto;
+		background-color: white;
 	}
 </style>
 <jsp:include page="/template/header.jsp"></jsp:include>
