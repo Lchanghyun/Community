@@ -124,6 +124,7 @@
   .menu-footer{
       width: 1100px; 
       margin: 0 auto; 
-      text-align: center; 
+	  padding-left: 20px;
+      text-align: left; 
       font-size: 11px;
   }

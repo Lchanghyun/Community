@@ -62,7 +62,7 @@
                             	로그인
                             </a>
                             &nbsp;
-                            <a href="회원가입페이지" class="btn-join">
+                            <a href="<%=request.getContextPath()%>/member/agreement.jsp" class="btn-join">
                             	회원가입
                             </a>
                         </div>
@@ -70,4 +70,4 @@
                 </div>
              </div>
         </header>
-        <section style="height: 600px;">
+        <section>
