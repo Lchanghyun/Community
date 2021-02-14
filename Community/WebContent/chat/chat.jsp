@@ -50,9 +50,30 @@
 </style>
 <script>
 	$(function() {
+		//message를 screen에 표시하기 위한 template 
+		var msgTemplate = $("#message_template").html();
+		//webSocket 생성
+		var webSocket = new WebSocket("ws://localhost:8080/Community/chat/websocket");
+		//webSocket이 접속되면 자동 요청되는 함수
+		webSocket.onopen = function(){
+			console.log("socket openning...");
+		}
+		//webSocket이 닫힐 때 요청되는 함수
+		webSocket.onclose = function(){
+			console.log("socket closed");
+		}
+		//webSocket 서버에서 메세지를 받으면 요청되는 함수
+		webSocket.onmessage = function(message){
+			console.log(message.data);
+			$(".chat_screen").append($(msgTemplate).find(".chat_msg").text(message.data));
+		}
+		//webSocket 에러발생시 요청되는 함수
+		webSocket.onerror= function(){
+			alert("error!");
+		}
+		//전송 버튼을 클릭하면 콜백되는 함수
 		$(".chat_btn").on("click", function(){
-			var chat_message=$(".chat-text").val(); //채팅메세지를 변수화
-			var msgTemplate = $("#message_template").html();
+			var chat_message=$(".chat_text").text(); //채팅메세지를 변수화
 
 			//채팅 메세지를 데이터베이스에 저장하는 비동기 함수
 			$.ajax({
@@ -68,8 +89,10 @@
 					console.log("chat_fail");
 				}
 			});
-			
-			$(".chat_screen").append($(msgTemplate).find(".chat_msg").text($(".chat_text").text()));
+			//webSocket 서버로 메세지 전송
+			webSocket.send(chat_message);
+			//메세지창 초기화
+			$(".chat_text").text("");
 		})
 	})
 </script>
