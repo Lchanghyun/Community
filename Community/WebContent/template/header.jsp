@@ -8,20 +8,15 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/main-style.css" type="text/css">
     <style>
       .btn-login::before{
-      	content: '';
-      	vertical-align: middle;
-      	display: inline-block;
-      	width: 20px;
-      	height: 20px;
       	background: url(<%=request.getContextPath() %>/img/ico_login.png) no-repeat 0 0;
   	  }
   	  .btn-join::before{
-      	content: '';
-      	vertical-align: middle;
-      	display: inline-block;
-      	width: 20px;
-      	height: 20px;
       	background: url(<%=request.getContextPath() %>/img/ico_join.png) no-repeat 0 0;
+      }
+      .search-btn{
+      	background: url(<%=request.getContextPath() %>/img/ico_search.png) no-repeat 0 0;
+      	background-size: 33px;
+      	text-indent: -9999px;
       }
     </style>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -44,14 +39,12 @@
                        <div class="logo-area">
                             <a href="#"><img src="https://placehold.it/200x60" alt="로고" ></a>                                              
                        </div>
-                       <div class="search-area">
-                           <div class="search">
-                               <form action="#">
-                                   <input class="search-input" type="text" placeholder="검색어를 입력하세요">
-                                   <button class="search-btn">버튼</button>                                   
-                               </form>
-                           </div>                           
-                       </div>
+                       <div class="search">
+                           <form action="#">
+                               <input class="search-input" type="text" placeholder="검색어를 입력하세요">
+                               <button class="search-btn">버튼</button>                                   
+                           </form>
+                       </div>                           
                    </div>
                 </div>
                 <div class="menu-bottom">
@@ -69,7 +62,7 @@
                             	로그인
                             </a>
                             &nbsp;
-                            <a href="회원가입페이지" class="btn-join">
+                            <a href="<%=request.getContextPath()%>/member/agreement.jsp" class="btn-join">
                             	회원가입
                             </a>
                         </div>
@@ -77,4 +70,4 @@
                 </div>
              </div>
         </header>
-        <section style="height: 600px;">
+        <section>
