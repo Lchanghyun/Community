@@ -2,16 +2,17 @@ package story.beans;
 
 import java.sql.Date;
 
-public class NoteVO {
+public class SendNoteVO {
 	private int note_no;
+	private int connect_no;
 	private int send_no;
 	private int receive_no;
 	private String note_content;
 	private Date send_date;
 	private String read_check;
-	private String store_check;
+	private String tempstore;
 	private String member_nick;
-	public NoteVO() {
+	public SendNoteVO() {
 		super();
 	}
 	public int getNote_no() {
@@ -19,6 +20,12 @@ public class NoteVO {
 	}
 	public void setNote_no(int note_no) {
 		this.note_no = note_no;
+	}
+	public int getConnect_no() {
+		return connect_no;
+	}
+	public void setConnect_no(int connect_no) {
+		this.connect_no = connect_no;
 	}
 	public int getSend_no() {
 		return send_no;
@@ -50,11 +57,11 @@ public class NoteVO {
 	public void setRead_check(String read_check) {
 		this.read_check = read_check;
 	}
-	public String getStore_check() {
-		return store_check;
+	public String getTempstore() {
+		return tempstore;
 	}
-	public void setStore_check(String store_check) {
-		this.store_check = store_check;
+	public void setTempstore(String tempstore) {
+		this.tempstore = tempstore;
 	}
 	public String getMember_nick() {
 		return member_nick;
