@@ -30,8 +30,20 @@
 	margin-right: 5px;
   }
 </style>
-
 <jsp:include page="/template/header.jsp"></jsp:include>
+<script>
+	$(function(){
+		$(".form").submit(function(e){
+			e.preventDefault();
+			if($("#agree-use").is(":checked") == true && $("#agree-privacy").is(":checked") == true){
+				this.submit(); 
+			}else{
+				alert("필수 약관에 동의 해주세요");
+                return;
+			}
+		});
+	});
+</script>
 
 <br>
 <br>
