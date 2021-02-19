@@ -37,14 +37,39 @@
 		$("input[name=member_id]").blur(function(){
 			var idRegex = /^[a-z][a-z0-9]{7,19}$/;
 			var span = $(".member_id_check");
+			var correct = $(this);
+			var member_id = $(this).val();
+			
 			if(idRegex.test($(this).val())){
-				
-				span.text("가능한 아이디 입니다");
-			    $(this).addClass("correct");
-				span.css("color","green");
+				$.ajax({
+					async:false,
+		        	url:"<%=request.getContextPath()%>/member/id_check.do",
+		        	type: "POST",
+		        	data: {
+		        		member_id : member_id
+		        	},
+	            	success: function(idCheck){
+	            		if(idCheck === true){
+	            			span.text("중복된 아이디입니다.")
+							span.css("color","red");
+	            			console.log(member_id);
+	            			console.log(idCheck);
+	            		    correct.removeClass("correct");
+	            		}else{
+							span.text("가능한 아이디 입니다");
+							span.css("color","green");	            			
+	            			correct.addClass("correct");
+	            			console.log(member_id);
+	            			console.log(idCheck);
+	            		}
+	            	},
+	            	error: function(){
+	            	}
+				})			
 			}else if($(this).val().length < 1 ){
 				span.text("필수 정보입니다.");
 				span.css("color","red");
+				$(this).removeClass("correct");
 			}else{
 				span.text("영문 소문자와 숫자를 섞어 8~20자 이내로 작성하세요");				
 				$(this).removeClass("correct");

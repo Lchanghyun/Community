@@ -2,7 +2,7 @@ package story.beans;
 
 import java.sql.Date;
 
-public class NoteDto {
+public class ReceiveNoteVO {
 	private int note_no;
 	private int send_no;
 	private int receive_no;
@@ -10,7 +10,8 @@ public class NoteDto {
 	private Date send_date;
 	private String read_check;
 	private String store_check;
-	public NoteDto() {
+	private String member_nick;
+	public ReceiveNoteVO() {
 		super();
 	}
 	public int getNote_no() {
@@ -54,5 +55,11 @@ public class NoteDto {
 	}
 	public void setStore_check(String store_check) {
 		this.store_check = store_check;
+	}
+	public String getMember_nick() {
+		return member_nick;
+	}
+	public void setMember_nick(String member_nick) {
+		this.member_nick = member_nick;
 	}
 }
