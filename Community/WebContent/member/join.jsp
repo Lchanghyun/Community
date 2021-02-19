@@ -76,6 +76,15 @@
 				span.css("color","red");
 			}
 		});
+		$("input[name=member_pw]").blur(function(){
+            var pwRegex = /^[a-zA-z0-9!@#$%][a-zA-z0-9!@#$%]{7,17}$/;
+            if(pwRegex.test($(this).val())){
+                $(this).addClass("correct");
+            }else{
+                $(this).next().text("영문대/소문자와 숫자로 구성된 8~18자 이내로 작성하세요");
+                $(this).removeClass("correct");
+            }
+        });
 	})
 </script>
 
@@ -122,11 +131,11 @@
 						<th><label>비밀번호</label></th>
 						<td>
 							<div>
-								<input type="text">
+								<input type="text" name="member_pw">
+								<span></span>						
 								<p style="font-size: 13px;">
-								※ 비밀번호의 경우 최소 9자 이상 20자 이내이며 최소 1개 이상의 영문, 숫자, 특수문자가포함되어야 합니다. 
-								(사용불가 특수문자는 <, >, (, ), ', /, |, ~ 와 같습니다.)사용불가 특수문자 외의 특수문자를 
-								사용하시기 바랍니다.</p>							
+								※ 비밀번호의 경우 최소 8자 이상 18자 이내이며 최소 1개 이상의 영문, 숫자, 특수문자가 포함되어야 합니다. 
+								(사용가능한  특수문자는 !, @, #, $, % 와 같습니다.)사용가능한 특수문자로 사용하시기 바랍니다.</p>							
 							</div>
 						</td>
 					</tr>
