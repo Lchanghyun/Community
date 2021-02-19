@@ -7,6 +7,7 @@
 		padding: 0;
 		background-color: white;
 		height: auto;
+		overflow: hidden;
 	}
 	.seciton-fl{
 		float: left;
@@ -19,26 +20,43 @@
       display: block;
       clear: both;
   	}
+  	.li-join::before{
+	content: '';
+	vertical-align: middle;
+	display: inline-block;
+	width: 5px;
+	height: 50px;
+	background-color: #007aff;
+	margin-right: 5px;
+  }
 </style>
-<script type="text/javascript">
-
-
-</script>
 <jsp:include page="/template/header.jsp"></jsp:include>
+<script>
+	$(function(){
+		$(".form").submit(function(e){
+			e.preventDefault();
+			if($("#agree-use").is(":checked") == true && $("#agree-privacy").is(":checked") == true){
+				this.submit(); 
+			}else{
+				alert("필수 약관에 동의 해주세요");
+                return;
+			}
+		});
+	});
+</script>
 
 <br>
 <br>
 
-<aside class="section-fl" style="width: 200px; display: inline-block;">
+<aside class="section-fl" style="margin-bottom: -9999px; padding-bottom: 9999px; width: 200px; display: inline-block; background-color:navy;">
 	<div style="background-color: #007aff; color: white; height: 50px;">
 		<h2 style="font-size: 28px; padding: 5px 0 5px 20px; margin: 0;">MEMBER</h2>
 	</div>
-	<ul>
-		<li><a href="#">로그인</a></li>
-		<li><a href="#">회원가입</a></li>
-		<li><a href="#">아이디찾기</a></li>
-		<li><a href="#">비밀번호찾기</a></li>
-		
+	<ul style="list-style: none; margin: 0; padding: 0;">
+		<li style="height: 50px; border-bottom: 0.5px solid white;"><a class="li-login" href="#" style="margin-left: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span style="position: relative; top: 14px;">로그인</span></a></li>
+		<li style="height: 50px; border-bottom: 0.5px solid white; background-color: black;"><a class="li-join" href="<%=request.getContextPath()%>/member/agreement.jsp" style="margin-right: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span>회원가입</span></a></li>
+		<li style="height: 50px; border-bottom: 0.5px solid white;"><a class="li-findId" href="#" style="margin-left: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span style="position: relative; top: 14px;">아이디찾기</span></a></li>
+		<li style="height: 50px; border-bottom: 0.5px solid white;"><a class="li-findPw" href="#" style="margin-left: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span style="position: relative; top: 14px;">비밀번호찾기</span></a></li>
 	</ul>
 	
 </aside>
@@ -268,7 +286,7 @@
 			</textarea>
 		</div>
 		<br>
-		<form action="<%=request.getContextPath()%>/member/join.jsp" method="post">
+		<form class="form" action="<%=request.getContextPath()%>/member/join.jsp" method="post">
 			<div class="content-footer" style="font-size: 14px; margin: 10px 0 30px 0; text-align: center;">
 				<div style="padding: 15px;">
 					<input type="checkbox" id="agree-use" name="agreement_use" value="1"><label for="agree-use" style="display: inline-block; margin-right: 5px;"><b>이용약관에 동의 합니다.</b></label>

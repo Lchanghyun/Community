@@ -2,6 +2,7 @@ package story.beans;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import story.util.JdbcUtil;
 
@@ -27,6 +28,65 @@ public class MemberDao {
 		ps.execute();
 		
 		con.close();
+	}
+	//상세보기(단일조회)
+	public MemberDto find(String member_id) throws Exception{
+		Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
+		String sql = "select * from member where member_id=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, member_id);
+		ResultSet rs = ps.executeQuery();
+		MemberDto dto;
+		if(rs.next()) {
+			dto = new MemberDto();
+			dto.setMember_id(rs.getString("member_id"));
+			dto.setMember_pw(rs.getString("member_pw"));
+			
+		}else {
+			dto = null;
+		}
+		con.close();
+		return dto;
+	}
+	// Id 중복 검사
+	public boolean idCheck(String member_id)throws Exception{
+		Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
+		String sql = "select member_id from member where member_id=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, member_id);
+		ResultSet rs = ps.executeQuery();
+		
+		boolean result = rs.next(); // id가 있는지 확인
+		
+		con.close();
+		return result;
+	}
+	// 닉네임 중복검사
+	public boolean nickCheck(String member_nick)throws Exception{
+		Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
+		String sql = "select member_id from member where member_nick=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, member_nick);
+		ResultSet rs = ps.executeQuery();
+		
+		boolean result = rs.next(); // nick가 있는지 확인
+		
+		con.close();
+		return result;
+	}
+	//로그인 검사
+	public boolean login(MemberDto memberDto) throws Exception{
+		Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
+		String sql = "select * from member where member_id=? and member_pw=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, memberDto.getMember_id());
+		ps.setString(2, memberDto.getMember_pw());
+		ResultSet rs = ps.executeQuery();
+		
+		boolean result = rs.next(); // id와 pw가 있는지 확인
+		
+		con.close();
+		return result;
 	}
 	
 
