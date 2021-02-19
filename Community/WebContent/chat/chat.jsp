@@ -1,5 +1,13 @@
+<%@page import="story.beans.*"%>
+<%@page import="javax.websocket.Session"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+int member_no=(int)session.getAttribute("check"); 
+MemberDao memberDao = new MemberDao();
+MemberDto memberDto = memberDao.find(member_no);
+String nick=memberDto.getMember_nick();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,6 +58,7 @@
 </style>
 <script>
 	$(function() {
+		var nick = <%=nick%>;
 		//message를 screen에 표시하기 위한 template 
 		var msgTemplate = $("#message_template").html();
 		//webSocket 생성
@@ -57,6 +66,7 @@
 		//webSocket이 접속되면 자동 요청되는 함수
 		webSocket.onopen = function(){
 			console.log("socket openning...");
+			webSocket.send(nick+'가 접속하였습니다.');			//webSocket 서버로 메세지 전송
 		}
 		//webSocket이 닫힐 때 요청되는 함수
 		webSocket.onclose = function(){
@@ -73,26 +83,10 @@
 		}
 		//전송 버튼을 클릭하면 콜백되는 함수
 		$(".chat_btn").on("click", function(){
-			var chat_message=$(".chat_text").text(); //채팅메세지를 변수화
+			var chat_message=$(".chat_text").text(); //채팅메세지를 변수화	
+			webSocket.send(chat_message);			//webSocket 서버로 메세지 전송
+			$(".chat_text").text("");			//메세지창 초기화
 
-			//채팅 메세지를 데이터베이스에 저장하는 비동기 함수
-			$.ajax({
-				url: "#",
-				type: "POST",
-				data:{
-					chat_message : chat_message
-				},
-				success: function(result){
-					
-				},
-				error: function(){
-					console.log("chat_fail");
-				}
-			});
-			//webSocket 서버로 메세지 전송
-			webSocket.send(chat_message);
-			//메세지창 초기화
-			$(".chat_text").text("");
 		})
 	})
 </script>
