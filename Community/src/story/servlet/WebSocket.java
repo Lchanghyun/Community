@@ -12,17 +12,19 @@ import javax.websocket.server.ServerEndpoint;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ServerEndpoint("/chat/websocket")
-public class WebSocket {
-	List<Session> sessionList = new ArrayList<>();
+public class WebSocket{
+	
+	List<Session> sessionList = new ArrayList<>(); //사용자의 세션을 저장하는 리스트
+	Map<Integer, List<Session>> map = new HashMap<>(); // 채팅방 별로 리스트를 관리하는 Map 
 	//webSocket이 열리면(브라우저와 연결되면) 요청되는 함수 
 	@OnOpen
-	public void open() {
+	public void open(Session session) {
 		System.out.println("채팅창 오픈");
-		//sessionList.add(session); //세션을 받아서 세션리스트에 저장
+		sessionList.add(session); //세션을 받아서 세션리스트에 저장		
 	}
 	//webSocket에 메세지가 도착하면 요청되는 함수
 	@OnMessage
-	public String message(String message) {
+	public String message(String message, Session session) {
 		System.out.println("메세지 : " + message);
 		return message;
 	}
