@@ -30,24 +30,59 @@ public class MemberDao {
 		con.close();
 	}
 	//상세보기(단일조회)
-	public MemberDto find(String member_id) throws Exception{
+	public MemberDto find(String member_id) throws Exception {
 		Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
-		String sql = "select * from member where member_id=?";
+		String sql="select * from member where member_no=?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, member_id);
-		ResultSet rs = ps.executeQuery();
+		ResultSet rs= ps.executeQuery();
+		
 		MemberDto dto;
 		if(rs.next()) {
-			dto = new MemberDto();
+			dto=new MemberDto();
+			dto.setMember_no(rs.getInt("member_no"));;
 			dto.setMember_id(rs.getString("member_id"));
 			dto.setMember_pw(rs.getString("member_pw"));
-			
-		}else {
-			dto = null;
+			dto.setMember_name(rs.getString("member_name"));
+			dto.setMember_nick(rs.getString("member_nick"));
+			dto.setMember_email(rs.getString("member_email"));
+			dto.setMember_auth(rs.getString("member_auth"));
+			dto.setMember_phone(rs.getString("member_phone"));
+			dto.setMember_birth(rs.getString("member_birth"));
+			dto.setMember_gender(rs.getString("member_gender"));
 		}
-		con.close();
+		else {
+			dto=null;
+		}
 		return dto;
 	}
+	public MemberDto find(int member_no) throws Exception {
+		Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
+		String sql="select * from member where member_no=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, member_no);
+		ResultSet rs= ps.executeQuery();
+		
+		MemberDto dto;
+		if(rs.next()) {
+			dto=new MemberDto();
+			dto.setMember_no(rs.getInt("member_no"));;
+			dto.setMember_id(rs.getString("member_id"));
+			dto.setMember_pw(rs.getString("member_pw"));
+			dto.setMember_name(rs.getString("member_name"));
+			dto.setMember_nick(rs.getString("member_nick"));
+			dto.setMember_email(rs.getString("member_email"));
+			dto.setMember_auth(rs.getString("member_auth"));
+			dto.setMember_phone(rs.getString("member_phone"));
+			dto.setMember_birth(rs.getString("member_birth"));
+			dto.setMember_gender(rs.getString("member_gender"));
+		}
+		else {
+			dto=null;
+		}
+		return dto;
+	}
+
 	// Id 중복 검사
 	public boolean idCheck(String member_id)throws Exception{
 		Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
@@ -88,6 +123,4 @@ public class MemberDao {
 		con.close();
 		return result;
 	}
-	
-
 }

@@ -12,6 +12,74 @@ public class NoteDao {
 	public static final String USERNAME = "story";
 	public static final String PASSWORD = "story";
 	
+	//읽었을때 읽음표시
+	public void ReceiveReadUpdate(int note_no) throws Exception{
+		Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
+		String sql = "update receivenote set read_check='1' where note_no=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, note_no);
+		ps.execute();
+		con.close();
+	}
+	//읽었을때 읽음표시
+	public void SendReadUpdate(int note_no) throws Exception{
+		Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
+		String sql = "update sendnote set read_check='1' where connect_no=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, note_no);
+		ps.execute();
+		con.close();
+	}
+	
+	//받은쪽지 상세보기
+		public ReceiveNoteVO ReceiveNoteDetail(int note_no) throws Exception{
+			Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
+			String sql = "select R.*, member_nick from(receivenote R inner join member M on R.send_no=M.member_no) "
+					+ "where note_no=?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, note_no);
+			ResultSet rs = ps.executeQuery();
+			ReceiveNoteVO vo = new ReceiveNoteVO();
+			if(rs.next()) {
+				vo.setNote_no(rs.getInt("note_no"));
+				vo.setSend_no(rs.getInt("send_no"));
+				vo.setReceive_no(rs.getInt("receive_no"));
+				vo.setNote_content(rs.getString("note_content"));
+				vo.setSend_date(rs.getDate("send_date"));
+				vo.setRead_check(rs.getString("read_check"));
+				vo.setStore_check(rs.getString("store_check"));
+				vo.setMember_nick(rs.getString("member_nick"));
+			}
+			else {
+				vo=null;
+			}
+			con.close();
+			return vo;
+		}
+		//보낸쪽지 상세보기
+		public ReceiveNoteVO SendNoteDetail(int note_no) throws Exception{
+			Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
+			String sql = "select S.*, member_nick from(sendnote S inner join member M on S.receive_no=M.member_no) "
+					+ "where note_no=?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, note_no);
+			ResultSet rs = ps.executeQuery();
+			ReceiveNoteVO vo = new ReceiveNoteVO();
+			if(rs.next()) {
+				vo.setNote_no(rs.getInt("note_no"));
+				vo.setSend_no(rs.getInt("send_no"));
+				vo.setReceive_no(rs.getInt("receive_no"));
+				vo.setNote_content(rs.getString("note_content"));
+				vo.setSend_date(rs.getDate("send_date"));
+				vo.setMember_nick(rs.getString("member_nick"));
+			}
+			else {
+				vo=null;
+			}
+			con.close();
+			return vo;
+		}
+		
 	//받은쪽지함 목록구하기
 		public List<ReceiveNoteVO> ReceiveNoteList(int receive_no) throws Exception{
 			Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);

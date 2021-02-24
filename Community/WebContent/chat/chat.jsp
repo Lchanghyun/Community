@@ -1,5 +1,13 @@
+<%@page import="story.beans.*"%>
+<%@page import="javax.websocket.Session"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+// int member_no=(int)session.getAttribute("check"); 
+// MemberDao memberDao = new MemberDao();
+// MemberDto memberDto = memberDao.find(member_no);
+// String nick=memberDto.getMember_nick();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +23,7 @@
 		margin: 0;
 	}
 	.chat_wrapper{
-		width: clamp(200px, 500px, 100%);
+		width: clamp(400px, 500px, 100%);
 		height: clamp(200px, 700px, 900px);
 	}
 	.chat_screen{
@@ -26,20 +34,19 @@
 	}
 	.chat_text{
 		display: inline-block;
-		width: 75%;
+		width: clamp(200px, 500px, 75%);
 		height: 28%;
 		padding: 10px 10px 0 10px;
 	}
 	.chat_text_right{
 		display: inline;
-		width:20%;
+		width:200px;
 		height: 30%;		
 	}
 	.chat_btn{
-		float: right;
-		margin-top: 20px;
-		margin-right: 20px;
-		width: 70px;
+		top: 30px;
+		right: 5px;
+		width: 80px;
 		height: 30px;
 	}
 	.chat_btn::after{
@@ -50,6 +57,9 @@
 </style>
 <script>
 	$(function() {
+		window.resizeTo(550,790);
+
+		var nick = "나다";
 		//message를 screen에 표시하기 위한 template 
 		var msgTemplate = $("#message_template").html();
 		//webSocket 생성
@@ -57,9 +67,11 @@
 		//webSocket이 접속되면 자동 요청되는 함수
 		webSocket.onopen = function(){
 			console.log("socket openning...");
+			webSocket.send(nick+'가 접속하였습니다.');			//webSocket 서버로 메세지 전송
 		}
 		//webSocket이 닫힐 때 요청되는 함수
 		webSocket.onclose = function(){
+			webSocket.send(nick+'가 퇴장하였습니다.');
 			console.log("socket closed");
 		}
 		//webSocket 서버에서 메세지를 받으면 요청되는 함수
@@ -73,26 +85,10 @@
 		}
 		//전송 버튼을 클릭하면 콜백되는 함수
 		$(".chat_btn").on("click", function(){
-			var chat_message=$(".chat_text").text(); //채팅메세지를 변수화
+			var chat_message=$(".chat_text").text(); //채팅메세지를 변수화	
+			webSocket.send(nick+" : "+chat_message);			//webSocket 서버로 메세지 전송
+			$(".chat_text").text("");			//메세지창 초기화
 
-			//채팅 메세지를 데이터베이스에 저장하는 비동기 함수
-			$.ajax({
-				url: "#",
-				type: "POST",
-				data:{
-					chat_message : chat_message
-				},
-				success: function(result){
-					
-				},
-				error: function(){
-					console.log("chat_fail");
-				}
-			});
-			//webSocket 서버로 메세지 전송
-			webSocket.send(chat_message);
-			//메세지창 초기화
-			$(".chat_text").text("");
 		})
 	})
 </script>
