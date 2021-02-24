@@ -108,7 +108,9 @@
       top: 7px;
   }
   .btn-login::before,
-  .btn-join::before{
+  .btn-logout::before,
+  .btn-join::before,
+  .btn-my::before{
 	content: '';
 	vertical-align: middle;
 	display: inline-block;

@@ -32,15 +32,16 @@
 
 </style>
 <jsp:include page="/template/header.jsp"></jsp:include>
+
 <script>
 	$(function(){
 		$("input[name=member_id]").blur(function(){
 			var idRegex = /^[a-z][a-z0-9]{7,19}$/;
-			var span = $(".member_id_check");
+			var span = $(".member_id_span");
 			var correct = $(this);
 			var member_id = $(this).val();
 			
-			if(idRegex.test($(this).val())){
+			if(idRegex.test(member_id)){
 				$.ajax({
 					async:false,
 		        	url:"<%=request.getContextPath()%>/member/id_check.do",
@@ -66,7 +67,7 @@
 	            	error: function(){
 	            	}
 				})			
-			}else if($(this).val().length < 1 ){
+			}else if(member_id.length < 1 ){
 				span.text("필수 정보입니다.");
 				span.css("color","red");
 				$(this).removeClass("correct");
@@ -78,13 +79,25 @@
 		});
 		$("input[name=member_pw]").blur(function(){
             var pwRegex = /^[a-zA-z0-9!@#$%][a-zA-z0-9!@#$%]{7,17}$/;
-            if(pwRegex.test($(this).val())){
+			var span = $(".member_pw_span");
+			var member_pw = $(this).val();
+            if(pwRegex.test(member_pw)){
                 $(this).addClass("correct");
-            }else{
-                $(this).next().text("영문대/소문자와 숫자로 구성된 8~18자 이내로 작성하세요");
-                $(this).removeClass("correct");
-            }
+                span.text("");
+            }else if(member_pw.length < 1 ){
+				span.text("필수 정보입니다.");
+				span.css("color","red");
+				$(this).removeClass("correct");
+			}else{
+				span.text("영문 대/소문자, 숫자 및 지정된 특수문자로 구성된 8~18자 이내로 작성하세요");				
+				$(this).removeClass("correct");
+				span.css("color","red");
+			}
         });
+		$("member_pw_check").blur(function{
+			var span = $(".member_pw_check_span");
+			if()
+		});
 	})
 </script>
 
@@ -98,10 +111,10 @@
 		<h2 style="font-size: 28px; padding: 5px 0 5px 20px; margin: 0;">MEMBER</h2>
 	</div>
 	<ul style="list-style: none; margin: 0; padding: 0;">
-		<li style="height: 50px; border-bottom: 0.5px solid white;"><a class="li-login" href="#" style="margin-left: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span style="position: relative; top: 14px;">로그인</span></a></li>
+		<li style="height: 50px; border-bottom: 0.5px solid white;"><a class="li-login" href="<%=request.getContextPath()%>/member/login.jsp" style="margin-left: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span style="position: relative; top: 14px;">로그인</span></a></li>
 		<li style="height: 50px; border-bottom: 0.5px solid white; background-color: black;"><a class="li-join" href="<%=request.getContextPath()%>/member/agreement.jsp" style="margin-right: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span>회원가입</span></a></li>
-		<li style="height: 50px; border-bottom: 0.5px solid white;"><a class="li-findId" href="#" style="margin-left: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span style="position: relative; top: 14px;">아이디찾기</span></a></li>
-		<li style="height: 50px; border-bottom: 0.5px solid white;"><a class="li-findPw" href="#" style="margin-left: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span style="position: relative; top: 14px;">비밀번호찾기</span></a></li>
+		<li style="height: 50px; border-bottom: 0.5px solid white;"><a class="li-findId" href="<%=request.getContextPath()%>/member/find-id.jsp" style="margin-left: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span style="position: relative; top: 14px;">아이디찾기</span></a></li>
+		<li style="height: 50px; border-bottom: 0.5px solid white;"><a class="li-findPw" href="<%=request.getContextPath()%>/member/find-pw.jsp" style="margin-left: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span style="position: relative; top: 14px;">비밀번호찾기</span></a></li>
 	</ul>
 	
 </aside>
@@ -122,8 +135,8 @@
 						<th><label>아이디</label></th>
 						<td>
 							<div>
-								<input type="text" name="member_id"><br>
-								<span class="member_id_check"></span>						
+								<input type="text" name="member_id">
+								<span class="member_id_span"></span>						
 							</div>
 						</td>
 					</tr>
@@ -132,7 +145,7 @@
 						<td>
 							<div>
 								<input type="text" name="member_pw">
-								<span></span>						
+								<span class="member_pw_span"></span>						
 								<p style="font-size: 13px;">
 								※ 비밀번호의 경우 최소 8자 이상 18자 이내이며 최소 1개 이상의 영문, 숫자, 특수문자가 포함되어야 합니다. 
 								(사용가능한  특수문자는 !, @, #, $, % 와 같습니다.)사용가능한 특수문자로 사용하시기 바랍니다.</p>							
@@ -143,7 +156,8 @@
 						<th><label>비밀번호 확인</label></th>
 						<td>
 							<div>
-								<input type="text">							
+								<input type="text" name="member_pw_check">
+								<span class="member_pw_check_span"></span>							
 							</div>
 						</td>
 					</tr>
@@ -151,7 +165,8 @@
 						<th><label>닉네임</label></th>
 						<td>
 							<div>
-								<input type="text"> <input type="button" value="중복검사">							
+								<input type="text" name="member_nick"> 
+								<input type="button" value="중복검사">							
 							</div>
 						</td>
 					</tr>
@@ -167,7 +182,7 @@
 						<th><label>이름</label></th>
 						<td>
 							<div>
-								<input type="text">							
+								<input type="text" name="member_name">							
 							</div>
 						</td>
 					</tr>
@@ -175,21 +190,21 @@
 						<th><label>생년월일</label></th>
 						<td>
 							<div>
-								<input type="text">
+								<input type="text" name="member_birth">
 								<select>
-									<option>월</option>
-									<option>1월</option>
-									<option>2월</option>
-									<option>3월</option>
-									<option>4월</option>
-									<option>5월</option>
-									<option>6월</option>
-									<option>7월</option>
-									<option>8월</option>
-									<option>9월</option>
-									<option>10월</option>
-									<option>11월</option>
-									<option>12월</option>
+									<option value="">월</option>
+									<option value="1">1월</option>
+									<option value="2">2월</option>
+									<option value="3">3월</option>
+									<option value="4">4월</option>
+									<option value="5">5월</option>
+									<option value="6">6월</option>
+									<option value="7">7월</option>
+									<option value="8">8월</option>
+									<option value="9">9월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
 								</select>
 								<input type="text">							
 							</div>
