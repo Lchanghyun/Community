@@ -1,0 +1,83 @@
+.reply{
+	resize: none;
+	width: 800px;
+    height: 80px;
+    margin: 15px 0px 15px 80px;
+    padding: 10px;   
+}
+.reply_wrap{
+	width:1100px;
+	height:105px;
+	min-height:100px;
+	
+}
+.reply_wr_wrapper{
+	width:100px;
+	text-align:center;
+}
+
+.reply_ct_wrapper{
+	width:500px;
+	font-size:15;	
+}
+
+.reply_num_wrapper{
+	width:50px;
+	text-align:center;
+	font-size:15;
+}
+
+.reply_ti_wrapper{
+	width:60px;
+	font-size:12;
+	text-align:center;
+}
+
+.reply_menu_wrapper{
+	width:35px;
+	font-size:15;
+	text-align:center;
+}
+.reply_img{
+	width:15px;
+}
+
+.reply_list{
+	width:100%;
+	padding:5px 70px 5px 50px;
+}
+
+.remote_control{
+	display: block;
+    position: fixed;
+    top: 550px;
+    left: 1570px;
+    z-index: 1000;
+    cursor: move;
+    width: 119px;
+    padding-bottom: 4px;
+    text-align: center;
+}
+.submit_bt{
+	position: relative;
+    left: 20px;
+    width: 120px;
+    height: 50px;
+    bottom: 64px;
+    margin: 0 auto;
+}
+.submit_other{
+	position: relative;
+    left: 905px;
+    width: 120px;
+    height: 25px;
+    bottom: 60px;
+}
+.reply_edit_cancel{
+	position: relative;
+    left: 905px;
+    width: 120px;
+    height: 25px;
+    bottom: 59px;
+    margin: 0 auto
+}
