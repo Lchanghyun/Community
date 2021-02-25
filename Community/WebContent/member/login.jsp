@@ -26,7 +26,7 @@
 	display: inline-block;
 	width: 5px;
 	height: 50px;
-	background-color: #007aff;
+	background-color: #ae875d;
 	margin-right: 5px;
   }
 </style>
@@ -34,12 +34,12 @@
 <br>
 <br>
 
-<aside class="section-fl" style="margin-bottom: -9999px; padding-bottom: 9999px; width: 200px; display: inline-block; background-color:navy;">
-	<div style="background-color: #007aff; color: white; height: 50px;">
+<aside class="section-fl" style="margin-bottom: -9999px; padding-bottom: 9999px; width: 200px; display: inline-block; background-color:#ae875d;">
+	<div style="background-color: #ae875d; color: white; height: 50px;">
 		<h2 style="font-size: 28px; padding: 5px 0 5px 20px; margin: 0;">MEMBER</h2>
 	</div>
 	<ul style="list-style: none; margin: 0; padding: 0;">
-		<li style="height: 50px; border-bottom: 0.5px solid white; background-color: black;"><a class="li-login" href="<%=request.getContextPath()%>/member/login.jsp" style="margin-right: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span>로그인</span></a></li>
+		<li style="height: 50px; border-bottom: 0.5px solid white; background-color: #CEA67A;"><a class="li-login" href="<%=request.getContextPath()%>/member/login.jsp" style="margin-right: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span>로그인</span></a></li>
 		<li style="height: 50px; border-bottom: 0.5px solid white;"><a class="li-join" href="<%=request.getContextPath()%>/member/agreement.jsp" style="margin-left: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span style="position: relative; top: 14px;">회원가입</span></a></li>
 		<li style="height: 50px; border-bottom: 0.5px solid white;"><a class="li-findId" href="<%=request.getContextPath()%>/member/find-id.jsp" style="margin-left: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span style="position: relative; top: 14px;">아이디찾기</span></a></li>
 		<li style="height: 50px; border-bottom: 0.5px solid white;"><a class="li-findPw" href="<%=request.getContextPath()%>/member/find-pw.jsp" style="margin-left: 10px; text-decoration: none; color: white; height: inherit; width: 190px; display: inline-block;"><span style="position: relative; top: 14px;">비밀번호찾기</span></a></li>
