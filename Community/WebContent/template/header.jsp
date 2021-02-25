@@ -7,10 +7,12 @@
     <title>이야기 저장소</title>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/main-style.css" type="text/css">
     <style>
-      .btn-login::before{
+      .btn-login::before,
+      .btn-logout::before{
       	background: url(<%=request.getContextPath() %>/img/ico_login.png) no-repeat 0 0;
   	  }
-  	  .btn-join::before{
+  	  .btn-join::before,
+  	  .btn-my::before{
       	background: url(<%=request.getContextPath() %>/img/ico_join.png) no-repeat 0 0;
       }
       .search-btn{
@@ -21,6 +23,12 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
  </head>
+  <%
+ 	//사용자가 로그인 상태인지 계산하는 코드
+ 	//로그인 상태: session에 check라는 이름의 값이 존재할 경우(null이 아닌 경우)
+ 	//로그아웃 상태: session에 check라는 이름의 값이 존재하지 않을 경우(null인 경우)
+ 	boolean isLogin = session.getAttribute("check") != null;
+ %>
 <body>
     <main>
         <header>
@@ -37,7 +45,7 @@
                 <div class="menu-middle">
                    <div class="middle-inner">
                        <div class="logo-area">
-                            <a href="#"><img src="https://placehold.it/200x60" alt="로고" ></a>                                              
+                            <a href="<%=request.getContextPath()%>"><img src="https://placehold.it/200x60" alt="로고" ></a>                                              
                        </div>
                        <div class="search">
                            <form action="#">
@@ -57,8 +65,19 @@
                             <a href="무언가3">영화</a>
                             <a href="무언가3">음악</a>
                         </div>
+                        <%if(isLogin){%>
                         <div class="bottom_inner-fr">
-                            <a href="로그인페이지" class="btn-login">
+                            <a href="<%= request.getContextPath() %>/member/logout.do" class="btn-logout">
+                            	로그아웃
+                            </a>
+                            &nbsp;
+                            <a href="#" class="btn-my">
+                            	내정보
+                            </a>
+                        </div>
+                        <%} else{%>
+                        <div class="bottom_inner-fr">
+                            <a href="<%=request.getContextPath()%>/member/login.jsp" class="btn-login">
                             	로그인
                             </a>
                             &nbsp;
@@ -66,6 +85,7 @@
                             	회원가입
                             </a>
                         </div>
+                        <%} %>
                     </div>
                 </div>
              </div>

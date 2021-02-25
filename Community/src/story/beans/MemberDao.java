@@ -82,6 +82,32 @@ public class MemberDao {
 		}
 		return dto;
 	}
+	public MemberDto detail(String member_email) throws Exception {
+		Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
+		String sql="select * from member where member_email=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, member_email);
+		ResultSet rs= ps.executeQuery();
+		
+		MemberDto dto;
+		if(rs.next()) {
+			dto=new MemberDto();
+			dto.setMember_no(rs.getInt("member_no"));;
+			dto.setMember_id(rs.getString("member_id"));
+			dto.setMember_pw(rs.getString("member_pw"));
+			dto.setMember_name(rs.getString("member_name"));
+			dto.setMember_nick(rs.getString("member_nick"));
+			dto.setMember_email(rs.getString("member_email"));
+			dto.setMember_auth(rs.getString("member_auth"));
+			dto.setMember_phone(rs.getString("member_phone"));
+			dto.setMember_birth(rs.getString("member_birth"));
+			dto.setMember_gender(rs.getString("member_gender"));
+		}
+		else {
+			dto=null;
+		}
+		return dto;
+	}
 
 	// Id 중복 검사
 	public boolean idCheck(String member_id)throws Exception{
@@ -119,6 +145,21 @@ public class MemberDao {
 		ResultSet rs = ps.executeQuery();
 		
 		boolean result = rs.next(); // id와 pw가 있는지 확인
+		
+		con.close();
+		return result;
+	}
+	//아이디 찾기
+	public boolean findID(MemberDto memberDto) throws Exception{
+		Connection con = JdbcUtil.getConnection(USERNAME, PASSWORD);
+		String sql = "select * from member where member_name=? and member_birth=? and member_email=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, memberDto.getMember_name());
+		ps.setString(2, memberDto.getMember_birth());
+		ps.setString(3, memberDto.getMember_email());
+		ResultSet rs = ps.executeQuery();
+		
+		boolean result = rs.next();
 		
 		con.close();
 		return result;
