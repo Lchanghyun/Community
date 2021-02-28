@@ -3,6 +3,13 @@ package story.beans;
 public class ChatDto {
 	private int chat_no;
 	private String chat_pw;
+	private String chat_name;
+	public String getChat_name() {
+		return chat_name;
+	}
+	public void setChat_name(String chat_name) {
+		this.chat_name = chat_name;
+	}
 	public int getChat_no() {
 		return chat_no;
 	}

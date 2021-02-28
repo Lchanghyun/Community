@@ -54,6 +54,7 @@ public class MemberDao {
 		else {
 			dto=null;
 		}
+		con.close();
 		return dto;
 	}
 	public MemberDto find(int member_no) throws Exception {
@@ -80,6 +81,7 @@ public class MemberDao {
 		else {
 			dto=null;
 		}
+		con.close();
 		return dto;
 	}
 

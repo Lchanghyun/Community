@@ -1,12 +1,15 @@
+<%@page import="story.servlet.WebSocket"%>
 <%@page import="story.beans.*"%>
 <%@page import="javax.websocket.Session"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-// int member_no=(int)session.getAttribute("check"); 
-// MemberDao memberDao = new MemberDao();
-// MemberDto memberDto = memberDao.find(member_no);
-// String nick=memberDto.getMember_nick();
+	int member_no=(int)session.getAttribute("check");
+	int chat_no = Integer.parseInt(request.getParameter("chat_no"));
+	MemberDao memberDao = new MemberDao();
+	MemberDto memberDto = memberDao.find(member_no);
+	String nick=memberDto.getMember_nick();
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -58,20 +61,28 @@
 <script>
 	$(function() {
 		window.resizeTo(550,790);
-
-		var nick = "나다";
+		var data = {
+				chat_no : '<%=chat_no%>',
+				nick : '<%=nick%>'
+			};		
 		//message를 screen에 표시하기 위한 template 
 		var msgTemplate = $("#message_template").html();
 		//webSocket 생성
 		var webSocket = new WebSocket("ws://localhost:8080/Community/chat/websocket");
 		//webSocket이 접속되면 자동 요청되는 함수
 		webSocket.onopen = function(){
+			var message = "입장하였습니다."
+			data.type="open";
+			data.msg=message;
+			sendMsg(data);			//webSocket 서버로 메세지 전송
 			console.log("socket openning...");
-			webSocket.send(nick+'가 접속하였습니다.');			//webSocket 서버로 메세지 전송
 		}
 		//webSocket이 닫힐 때 요청되는 함수
 		webSocket.onclose = function(){
-			webSocket.send(nick+'가 퇴장하였습니다.');
+			var message = "퇴장하였습니다."
+			data.type="close";
+			data.msg=message;
+			sendMsg(data);
 			console.log("socket closed");
 		}
 		//webSocket 서버에서 메세지를 받으면 요청되는 함수
@@ -85,11 +96,17 @@
 		}
 		//전송 버튼을 클릭하면 콜백되는 함수
 		$(".chat_btn").on("click", function(){
-			var chat_message=$(".chat_text").text(); //채팅메세지를 변수화	
-			webSocket.send(nick+" : "+chat_message);			//webSocket 서버로 메세지 전송
+			var chat_message=$(".chat_text").text(); //채팅메세지를 변수화
+			data.type="msg";
+			data.msg=chat_message;
+			sendMsg(data);			//webSocket 서버로 메세지 전송
 			$(".chat_text").text("");			//메세지창 초기화
 
 		})
+		function sendMsg(data){
+			var json =JSON.stringify(data);
+			webSocket.send(json);
+		}
 	})
 </script>
 <!-- 채팅 메세지를 담는 message_template -->
